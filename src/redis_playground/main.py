@@ -31,6 +31,8 @@ EXERCISE_REGISTRY = {
     "10": ("redis_playground.exercises.ex10_pipelining", "Ex10Pipelining"),
     "11": ("redis_playground.exercises.ex11_lua_scripting", "Ex11LuaScripting"),
     "12": ("redis_playground.exercises.ex12_geospatial", "Ex12Geospatial"),
+    "13": ("redis_playground.exercises.ex13_bitmaps_hll", "Ex13BitmapsHLL"),
+>>>>>>> d3db15f (feat: add Exercise 13 - Bitmaps & HyperLogLog)
 }
 
 main_log = Console.for_module("main")
