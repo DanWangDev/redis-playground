@@ -22,7 +22,9 @@ class Ex18DistributedLocks(ExerciseRunner):
         results = {}
 
         self.log.section("Step 1: Acquire Lock with SET NX PX")
-        self.log.concept("SET key value NX PX 30000: set only if Not eXists, with 30s eXpiration.")
+        self.log.concept(
+            "SET key value NX PX 30000: set only if Not eXists, with 30s eXpiration."
+        )
         token = str(uuid.uuid4())[:8]
         acquired = client.set("lock:resource", token, nx=True, px=30000)
         self.log.command(f'SET lock:resource "{token}" NX PX 30000')
@@ -31,7 +33,9 @@ class Ex18DistributedLocks(ExerciseRunner):
         results["token"] = token
 
         self.log.section("Step 2: Contention — Second Lock Attempt Fails")
-        self.log.concept("A second client tries to acquire the same lock — NX prevents it.")
+        self.log.concept(
+            "A second client tries to acquire the same lock — NX prevents it."
+        )
         other_token = "other-" + str(uuid.uuid4())[:4]
         second_acquired = client.set("lock:resource", other_token, nx=True, px=30000)
         self.log.command(f'SET lock:resource "{other_token}" NX PX 30000')
@@ -39,11 +43,13 @@ class Ex18DistributedLocks(ExerciseRunner):
         results["second_acquired"] = second_acquired
 
         self.log.section("Step 3: Safe Release with Lua")
-        self.log.concept("A Lua script checks the token before deleting — prevents releasing others' locks.")
+        self.log.concept(
+            "A Lua script checks the token before deleting — prevents releasing others' locks."
+        )
         sha = client.script_load(SAFE_RELEASE_LUA)
         # Wrong token attempt
         wrong_release = client.evalsha(sha, 1, "lock:resource", "wrong-token")
-        self.log.command('EVALSHA safe_release (wrong token)')
+        self.log.command("EVALSHA safe_release (wrong token)")
         self.log.output(f"Wrong token release: {wrong_release} (0 = not released)")
 
         # Correct token release
@@ -62,16 +68,22 @@ class Ex18DistributedLocks(ExerciseRunner):
         results["lock_freed"] = lock_exists == 0
 
         self.log.section("Step 4: Fencing Token Pattern")
-        self.log.concept("Fencing tokens (monotonic IDs) prevent lock-starvation from paused processes.")
+        self.log.concept(
+            "Fencing tokens (monotonic IDs) prevent lock-starvation from paused processes."
+        )
         fence_token = 42
         client.set("lock:resource", str(fence_token), nx=True, px=30000)
         current_fence = int(client.get("lock:resource") or 0)
         self.log.command(f"Lock acquired with fencing token: {fence_token}")
-        self.log.output(f"Current fence: {current_fence} — storage checks {fence_token} >= {current_fence}")
+        self.log.output(
+            f"Current fence: {current_fence} — storage checks {fence_token} >= {current_fence}"
+        )
         results["fencing_token"] = fence_token
 
         client.delete("lock:resource")
 
         self.log.separator()
-        self.log.success(f"Distributed locks: SET NX PX OK, safe release OK, fencing token={fence_token}")
+        self.log.success(
+            f"Distributed locks: SET NX PX OK, safe release OK, fencing token={fence_token}"
+        )
         return results
