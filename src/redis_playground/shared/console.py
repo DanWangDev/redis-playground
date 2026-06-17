@@ -7,7 +7,6 @@ with colored sections, command highlights, tables, and panels.
 from rich.console import Console as RichConsole
 from rich.table import Table
 from rich.panel import Panel
-from rich.text import Text
 from rich import box
 
 _console = RichConsole()
@@ -32,7 +31,9 @@ class Console:
         _console.print(f"[bold blue]── {text} ──[/bold blue]")
 
     def step(self, number: int, description: str) -> None:
-        _console.print(f"  [bold yellow]Step {number}:[/bold yellow] [dim]{description}[/dim]")
+        _console.print(
+            f"  [bold yellow]Step {number}:[/bold yellow] [dim]{description}[/dim]"
+        )
 
     def concept(self, text: str) -> None:
         _console.print(f"  [dim italic]💡 {text}[/dim italic]")

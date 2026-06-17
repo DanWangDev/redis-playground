@@ -55,5 +55,7 @@ class ExerciseRunner(ABC):
         self.log.header(f"Exercise {self.exercise_id}: {self.title}")
         client.flushdb()
         results = self.run(client)
-        self.log.summary(f"Exercise {self.exercise_id} completed — {len(results)} results")
+        self.log.summary(
+            f"Exercise {self.exercise_id} completed — {len(results)} results"
+        )
         return results

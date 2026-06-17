@@ -9,10 +9,25 @@ import redis
 # ── User profiles (for Hash exercises) ──────────────────────────
 
 SAMPLE_USERS = {
-    "user:1": {"name": "Alice", "email": "alice@example.com", "age": "28", "plan": "pro"},
+    "user:1": {
+        "name": "Alice",
+        "email": "alice@example.com",
+        "age": "28",
+        "plan": "pro",
+    },
     "user:2": {"name": "Bob", "email": "bob@example.com", "age": "35", "plan": "basic"},
-    "user:3": {"name": "Carol", "email": "carol@example.com", "age": "22", "plan": "pro"},
-    "user:4": {"name": "Dave", "email": "dave@example.com", "age": "41", "plan": "enterprise"},
+    "user:3": {
+        "name": "Carol",
+        "email": "carol@example.com",
+        "age": "22",
+        "plan": "pro",
+    },
+    "user:4": {
+        "name": "Dave",
+        "email": "dave@example.com",
+        "age": "41",
+        "plan": "enterprise",
+    },
     "user:5": {"name": "Eve", "email": "eve@example.com", "age": "30", "plan": "basic"},
 }
 
@@ -69,6 +84,7 @@ def seed_locations(client: redis.Redis) -> str:
 
 
 # ── Article tags (for Set exercises) ────────────────────────────
+
 
 def seed_article_tags(client: redis.Redis) -> list[str]:
     """Seed article tags as Redis sets. Returns list of article keys."""
