@@ -40,7 +40,9 @@ class Ex17RateLimiting(ExerciseRunner):
         results = {}
 
         self.log.section("Step 1: Fixed Window Counter")
-        self.log.concept("Simplest rate limiter: INCR counter, EXPIRE to reset after window.")
+        self.log.concept(
+            "Simplest rate limiter: INCR counter, EXPIRE to reset after window."
+        )
         key = "ratelimit:fixed:user:1"
         client.delete(key)
         count = client.incr(key)
@@ -50,14 +52,18 @@ class Ex17RateLimiting(ExerciseRunner):
         results["fixed_window_count"] = count
 
         self.log.section("Step 2: Sliding Window with Sorted Sets")
-        self.log.concept("Store each request timestamp as a sorted set member. Clean old entries.")
+        self.log.concept(
+            "Store each request timestamp as a sorted set member. Clean old entries."
+        )
         now_ms = int(time.time() * 1000)
         window_ms = 60000  # 1 minute window
         zkey = "ratelimit:sliding:user:1"
         client.delete(zkey)
         # Simulate requests at different times
         for i in range(5):
-            client.zadd(zkey, {f"req:{now_ms - 50000 + i * 1000}": now_ms - 50000 + i * 1000})
+            client.zadd(
+                zkey, {f"req:{now_ms - 50000 + i * 1000}": now_ms - 50000 + i * 1000}
+            )
         cutoff = now_ms - window_ms
         client.zremrangebyscore(zkey, 0, cutoff)
         count = client.zcard(zkey)
@@ -66,7 +72,9 @@ class Ex17RateLimiting(ExerciseRunner):
         results["sliding_window_count"] = count
 
         self.log.section("Step 3: Token Bucket with Lua")
-        self.log.concept("Token bucket provides smooth rate limiting. Lua script makes it atomic.")
+        self.log.concept(
+            "Token bucket provides smooth rate limiting. Lua script makes it atomic."
+        )
         tkey = "ratelimit:bucket:user:1"
         client.delete(tkey)
         sha = client.script_load(TOKEN_BUCKET_LUA)
@@ -84,5 +92,7 @@ class Ex17RateLimiting(ExerciseRunner):
         results["drain_allowed"] = result2[0] == 1
 
         self.log.separator()
-        self.log.success(f"Rate limiting: fixed={count}, sliding={results['sliding_window_count']}, token_bucket OK")
+        self.log.success(
+            f"Rate limiting: fixed={count}, sliding={results['sliding_window_count']}, token_bucket OK"
+        )
         return results
