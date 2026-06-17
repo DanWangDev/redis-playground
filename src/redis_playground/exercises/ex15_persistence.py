@@ -13,13 +13,19 @@ class Ex15Persistence(ExerciseRunner):
         results = {}
 
         self.log.section("Step 1: CONFIG GET — RDB Snapshot Settings")
-        self.log.concept("RDB snapshots are triggered by 'save' directives: save <seconds> <changes>")
-        self.log.concept("Requires real Redis — CONFIG commands not available in fakeredis.")
+        self.log.concept(
+            "RDB snapshots are triggered by 'save' directives: save <seconds> <changes>"
+        )
+        self.log.concept(
+            "Requires real Redis — CONFIG commands not available in fakeredis."
+        )
         try:
             save_config = client.config_get("save")
             self.log.command("CONFIG GET save")
             self.log.output(str(save_config))
-            results["has_save_config"] = "save" in save_config and bool(save_config["save"])
+            results["has_save_config"] = "save" in save_config and bool(
+                save_config["save"]
+            )
         except redis.exceptions.ResponseError:
             self.log.warn("CONFIG GET not supported — using fakeredis, skipping")
             results["has_save_config"] = True  # assume configured for test
@@ -41,7 +47,11 @@ class Ex15Persistence(ExerciseRunner):
         try:
             info = client.info("persistence")
             self.log.command("INFO persistence")
-            for key in ["rdb_last_save_time", "rdb_changes_since_last_save", "aof_enabled"]:
+            for key in [
+                "rdb_last_save_time",
+                "rdb_changes_since_last_save",
+                "aof_enabled",
+            ]:
                 val = info.get(key, "N/A")
                 self.log.output(f"  {key}: {val}")
             results["rdb_changes"] = info.get("rdb_changes_since_last_save", 0)
@@ -60,5 +70,7 @@ class Ex15Persistence(ExerciseRunner):
             results["policy"] = "noeviction"
 
         self.log.separator()
-        self.log.success(f"Persistence: AOF={'enabled' if results['aof_enabled'] else 'disabled'}, rdb_changes={results['rdb_changes']}")
+        self.log.success(
+            f"Persistence: AOF={'enabled' if results['aof_enabled'] else 'disabled'}, rdb_changes={results['rdb_changes']}"
+        )
         return results
