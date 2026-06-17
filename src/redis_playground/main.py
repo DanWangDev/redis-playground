@@ -30,6 +30,7 @@ EXERCISE_REGISTRY = {
     "09": ("redis_playground.exercises.ex09_transactions", "Ex09Transactions"),
     "10": ("redis_playground.exercises.ex10_pipelining", "Ex10Pipelining"),
     "11": ("redis_playground.exercises.ex11_lua_scripting", "Ex11LuaScripting"),
+    "12": ("redis_playground.exercises.ex12_geospatial", "Ex12Geospatial"),
 }
 
 main_log = Console.for_module("main")
