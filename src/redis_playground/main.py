@@ -32,6 +32,15 @@ EXERCISE_REGISTRY = {
     "11": ("redis_playground.exercises.ex11_lua_scripting", "Ex11LuaScripting"),
     "12": ("redis_playground.exercises.ex12_geospatial", "Ex12Geospatial"),
     "13": ("redis_playground.exercises.ex13_bitmaps_hll", "Ex13BitmapsHLL"),
+    "14": (
+        "redis_playground.exercises.ex14_keyspace_notifications",
+        "Ex14KeyspaceNotifications",
+    ),
+    "15": ("redis_playground.exercises.ex15_persistence", "Ex15Persistence"),
+    "16": (
+        "redis_playground.exercises.ex16_client_side_caching",
+        "Ex16ClientSideCaching",
+    ),
     "17": ("redis_playground.exercises.ex17_rate_limiting", "Ex17RateLimiting"),
     "18": ("redis_playground.exercises.ex18_distributed_locks", "Ex18DistributedLocks"),
     "19": ("redis_playground.exercises.ex19_sentinel", "Ex19Sentinel"),
