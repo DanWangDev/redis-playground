@@ -34,6 +34,7 @@ EXERCISE_REGISTRY = {
     "13": ("redis_playground.exercises.ex13_bitmaps_hll", "Ex13BitmapsHLL"),
     "17": ("redis_playground.exercises.ex17_rate_limiting", "Ex17RateLimiting"),
     "18": ("redis_playground.exercises.ex18_distributed_locks", "Ex18DistributedLocks"),
+    "19": ("redis_playground.exercises.ex19_sentinel", "Ex19Sentinel"),
 }
 
 main_log = Console.for_module("main")
