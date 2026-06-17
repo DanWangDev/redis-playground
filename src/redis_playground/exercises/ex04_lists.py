@@ -19,7 +19,9 @@ class Ex04Lists(ExerciseRunner):
 
         # ── Step 1: Queue pattern (FIFO) ───────────────────────
         self.log.section("Step 1: Queue (FIFO) — LPUSH + RPOP")
-        self.log.concept("A queue is First-In-First-Out: LPUSH adds to head, RPOP removes from tail.")
+        self.log.concept(
+            "A queue is First-In-First-Out: LPUSH adds to head, RPOP removes from tail."
+        )
         self.log.concept("This is the classic task queue / message queue pattern.")
 
         client.rpush("queue:tasks", "task-1", "task-2", "task-3")
@@ -32,8 +34,12 @@ class Ex04Lists(ExerciseRunner):
 
         # ── Step 2: Stack pattern (LIFO) ───────────────────────
         self.log.section("Step 2: Stack (LIFO) — LPUSH + LPOP")
-        self.log.concept("A stack is Last-In-First-Out: LPUSH adds to head, LPOP removes from head.")
-        self.log.concept("Useful for browser history, undo systems, expression evaluation.")
+        self.log.concept(
+            "A stack is Last-In-First-Out: LPUSH adds to head, LPOP removes from head."
+        )
+        self.log.concept(
+            "Useful for browser history, undo systems, expression evaluation."
+        )
 
         client.lpush("stack:history", "page-1", "page-2", "page-3")
         self.log.command('LPUSH stack:history "page-1" "page-2" "page-3"')
@@ -45,8 +51,12 @@ class Ex04Lists(ExerciseRunner):
 
         # ── Step 3: Range inspection ───────────────────────────
         self.log.section("Step 3: LRANGE — Inspect List Contents")
-        self.log.concept("LRANGE start stop returns elements in the range (both inclusive).")
-        self.log.concept("Use 0 -1 to get all elements. Negative indices count from the end.")
+        self.log.concept(
+            "LRANGE start stop returns elements in the range (both inclusive)."
+        )
+        self.log.concept(
+            "Use 0 -1 to get all elements. Negative indices count from the end."
+        )
 
         client.delete("stack:history")
         client.rpush("fruits", "apple", "banana", "cherry", "date", "elderberry")
@@ -69,7 +79,9 @@ class Ex04Lists(ExerciseRunner):
         # ── Step 4: Capped collection ──────────────────────────
         self.log.section("Step 4: LTRIM — Capped Collection")
         self.log.concept("LTRIM keeps only a range of elements, discarding the rest.")
-        self.log.concept("Useful for activity feeds where you only need the most recent N items.")
+        self.log.concept(
+            "Useful for activity feeds where you only need the most recent N items."
+        )
 
         client.delete("activity")
         for i in range(1, 12):

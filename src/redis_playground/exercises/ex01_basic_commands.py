@@ -4,8 +4,6 @@ Connect to Redis, explore fundamental CRUD operations:
 PING, SET, GET, DEL, EXISTS, EXPIRE, TTL, KEYS, TYPE.
 """
 
-import time
-
 import redis
 
 from redis_playground.shared.exercise_runner import ExerciseRunner
@@ -32,7 +30,9 @@ class Ex01BasicCommands(ExerciseRunner):
         # ── Step 2: SET and GET ─────────────────────────────────
         self.log.section("Step 2: SET and GET")
         self.log.concept("SET stores a string value under a key.")
-        self.log.concept("GET retrieves the value. Returns None if the key doesn't exist.")
+        self.log.concept(
+            "GET retrieves the value. Returns None if the key doesn't exist."
+        )
 
         client.set("name", "Alice")
         self.log.command('SET name "Alice"')
@@ -72,7 +72,9 @@ class Ex01BasicCommands(ExerciseRunner):
         # ── Step 4: Key expiration and TTL ─────────────────────
         self.log.section("Step 4: Key Expiration")
         self.log.concept("EXPIRE sets a time-to-live in seconds on a key.")
-        self.log.concept("TTL returns remaining seconds: positive = expiring, -1 = persistent, -2 = gone.")
+        self.log.concept(
+            "TTL returns remaining seconds: positive = expiring, -1 = persistent, -2 = gone."
+        )
 
         client.set("temp", "I will disappear")
         client.expire("temp", 10)
@@ -82,7 +84,9 @@ class Ex01BasicCommands(ExerciseRunner):
         ttl1 = client.ttl("temp")
         self.log.command("TTL temp")
         self.log.output(f"Returns ~10 seconds: {ttl1}")
-        self.log.concept(f"TTL returned {ttl1} — the key will expire in about 10 seconds.")
+        self.log.concept(
+            f"TTL returned {ttl1} — the key will expire in about 10 seconds."
+        )
 
         # TTL on a persistent key (no expiry)
         ttl2 = client.ttl("name")

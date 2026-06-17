@@ -1,9 +1,6 @@
 """Tests for Exercise 05: Sets."""
 
-import pytest
-
 from redis_playground.exercises.ex05_sets import Ex05Sets
-from tests.helpers.assertions import assert_set_member, assert_set_size
 
 
 class TestEx05Sets:
@@ -26,7 +23,9 @@ class TestEx05Sets:
         exercise = Ex05Sets()
         results = exercise.execute(fake_redis)
         assert "redis" in results[4], "redis should be in intersection"
-        assert len(results[4]) == 1, "Only 'redis' is shared between article:1 and article:2"
+        assert len(results[4]) == 1, (
+            "Only 'redis' is shared between article:1 and article:2"
+        )
 
     def test_sunion_all_tags(self, fake_redis):
         """SUNION returns all distinct elements."""

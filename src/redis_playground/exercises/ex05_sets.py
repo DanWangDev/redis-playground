@@ -20,7 +20,9 @@ class Ex05Sets(ExerciseRunner):
         # ── Step 1: Add members and test membership ────────────
         self.log.section("Step 1: SADD and SISMEMBER")
         self.log.concept("Sets store unique members. Adding a duplicate is a no-op.")
-        self.log.concept("SISMEMBER is O(1) — instant membership check regardless of set size.")
+        self.log.concept(
+            "SISMEMBER is O(1) — instant membership check regardless of set size."
+        )
 
         added = client.sadd("tags:redis", "nosql", "cache", "in-memory", "key-value")
         self.log.command('SADD tags:redis "nosql" "cache" "in-memory" "key-value"')
@@ -41,9 +43,15 @@ class Ex05Sets(ExerciseRunner):
 
         # ── Step 2: Set arithmetic ─────────────────────────────
         self.log.section("Step 2: Set Arithmetic — SINTER, SUNION, SDIFF")
-        self.log.concept("SINTER finds common members across sets — like 'friends in common'.")
-        self.log.concept("SUNION combines all members from all sets — like 'all interests'.")
-        self.log.concept("SDIFF finds members in set A that are NOT in set B — like 'missing tags'.")
+        self.log.concept(
+            "SINTER finds common members across sets — like 'friends in common'."
+        )
+        self.log.concept(
+            "SUNION combines all members from all sets — like 'all interests'."
+        )
+        self.log.concept(
+            "SDIFF finds members in set A that are NOT in set B — like 'missing tags'."
+        )
 
         seed_article_tags(client)
         self.log.command("Seeded article tags for 4 articles")
