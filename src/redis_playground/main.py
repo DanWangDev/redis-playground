@@ -46,6 +46,7 @@ EXERCISE_REGISTRY = {
     "19": ("redis_playground.exercises.ex19_sentinel", "Ex19Sentinel"),
     "20": ("redis_playground.exercises.ex20_cluster", "Ex20Cluster"),
     "21": ("redis_playground.exercises.ex21_sharded_pub_sub", "Ex21ShardedPubSub"),
+    "22": ("redis_playground.exercises.ex22_scan", "Ex22Scan"),
 }
 
 main_log = Console.for_module("main")
