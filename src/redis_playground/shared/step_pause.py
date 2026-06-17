@@ -17,7 +17,7 @@ class StepPause:
         """Pause and wait for Enter if step mode is enabled."""
         if not self.enabled:
             return
-        prompt = f"  [Enter] to continue"
+        prompt = "  [Enter] to continue"
         if description:
             prompt = f"  {description} — [Enter] to continue"
         input(prompt)

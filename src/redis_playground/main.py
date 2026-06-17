@@ -19,7 +19,7 @@ from redis_playground.shared.console import Console
 
 
 EXERCISE_REGISTRY = {
-    # Populated as exercises are added — see Phase 2-6
+    "01": ("redis_playground.exercises.ex01_basic_commands", "Ex01BasicCommands"),
 }
 
 main_log = Console.for_module("main")
@@ -42,18 +42,21 @@ def main():
         description="Redis Playground — hands-on Redis learning exercises"
     )
     parser.add_argument(
-        "--exercise", "-e",
+        "--exercise",
+        "-e",
         type=str,
         required=True,
         help="Exercise number (e.g., '01', '02')",
     )
     parser.add_argument(
-        "--local", "-l",
+        "--local",
+        "-l",
         action="store_true",
         help="Use fakeredis (in-memory, no Docker needed)",
     )
     parser.add_argument(
-        "--step", "-s",
+        "--step",
+        "-s",
         action="store_true",
         help="Enable interactive step-by-step mode",
     )
