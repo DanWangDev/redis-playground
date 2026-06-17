@@ -1,0 +1,36 @@
+[project]
+name = "redis-playground"
+version = "1.0.0"
+description = "Hands-on Redis learning playground with 20 progressive exercises"
+requires-python = ">=3.11"
+dependencies = [
+    "redis>=5.0.0",
+    "rich>=13.7.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-cov>=5.0.0",
+    "fakeredis[lua]>=2.20.0",
+    "ruff>=0.5.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+markers = [
+    "integration: tests that require a real Redis server (Docker)",
+]
+
+[tool.coverage.run]
+source = ["src/redis_playground"]
+omit = ["src/redis_playground/shared/console.py"]
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "abstract",
+]
