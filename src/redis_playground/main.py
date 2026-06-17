@@ -26,6 +26,7 @@ EXERCISE_REGISTRY = {
     "05": ("redis_playground.exercises.ex05_sets", "Ex05Sets"),
     "06": ("redis_playground.exercises.ex06_sorted_sets", "Ex06SortedSets"),
     "07": ("redis_playground.exercises.ex07_pub_sub", "Ex07PubSub"),
+    "08": ("redis_playground.exercises.ex08_streams", "Ex08Streams"),
 }
 
 main_log = Console.for_module("main")
