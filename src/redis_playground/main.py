@@ -20,6 +20,7 @@ from redis_playground.shared.console import Console
 
 EXERCISE_REGISTRY = {
     "01": ("redis_playground.exercises.ex01_basic_commands", "Ex01BasicCommands"),
+    "02": ("redis_playground.exercises.ex02_strings", "Ex02Strings"),
 }
 
 main_log = Console.for_module("main")
