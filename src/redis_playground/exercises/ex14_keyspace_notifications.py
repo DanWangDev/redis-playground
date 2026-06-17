@@ -22,11 +22,15 @@ class Ex14KeyspaceNotifications(ExerciseRunner):
             self.log.command('CONFIG SET notify-keyspace-events "Kgx"')
             self.log.success("K=keyspace, g=generic, x=expired events enabled")
         except Exception:
-            self.log.warn("Could not set config (expected with some fakeredis versions)")
+            self.log.warn(
+                "Could not set config (expected with some fakeredis versions)"
+            )
         results["config_set"] = True
 
         self.log.section("Step 2: Subscribe to Keyspace Events")
-        self.log.concept("PSUBSCRIBE __keyspace@0__:* monitors all key events in database 0.")
+        self.log.concept(
+            "PSUBSCRIBE __keyspace@0__:* monitors all key events in database 0."
+        )
         pubsub = client.pubsub()
         pubsub.psubscribe("__keyspace@0__:*")
         self.log.command("PSUBSCRIBE __keyspace@0__:*")

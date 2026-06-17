@@ -1,6 +1,8 @@
 """Tests for Exercise 14: Keyspace Notifications."""
 
-from redis_playground.exercises.ex14_keyspace_notifications import Ex14KeyspaceNotifications
+from redis_playground.exercises.ex14_keyspace_notifications import (
+    Ex14KeyspaceNotifications,
+)
 
 
 class TestEx14KeyspaceNotifications:
