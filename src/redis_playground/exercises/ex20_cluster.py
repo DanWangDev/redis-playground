@@ -14,7 +14,9 @@ class Ex20Cluster(ExerciseRunner):
 
         self.log.section("Step 1: CLUSTER KEYSLOT — Hash Slot Calculation")
         self.log.concept("CRC16(key) mod 16384 determines which node owns a key.")
-        self.log.concept("Requires a real Redis Cluster (Docker Compose cluster profile).")
+        self.log.concept(
+            "Requires a real Redis Cluster (Docker Compose cluster profile)."
+        )
 
         try:
             slot1 = client.execute_command("CLUSTER", "KEYSLOT", "user:123")
@@ -55,7 +57,9 @@ class Ex20Cluster(ExerciseRunner):
             results["cluster_info"] = "not clustered"
 
         self.log.section("Step 4: MOVED Redirect Simulation")
-        self.log.concept("When a key belongs to another node, Cluster returns MOVED <slot> <ip:port>.")
+        self.log.concept(
+            "When a key belongs to another node, Cluster returns MOVED <slot> <ip:port>."
+        )
         self.log.concept("redis-py's RedisCluster client handles this automatically.")
         try:
             # Just demonstrate the concept — won't actually redirect in single-node mode
@@ -66,11 +70,15 @@ class Ex20Cluster(ExerciseRunner):
             results["get_result"] = val
         except redis.exceptions.ResponseError as e:
             if "MOVED" in str(e):
-                self.log.warn("MOVED redirect received — Cluster redirected to correct node")
+                self.log.warn(
+                    "MOVED redirect received — Cluster redirected to correct node"
+                )
                 results["get_result"] = "MOVED"
             else:
                 raise
 
         self.log.separator()
-        self.log.success(f"Cluster: slots OK, hash tags co-locate, info: {results['cluster_info'][:50]}")
+        self.log.success(
+            f"Cluster: slots OK, hash tags co-locate, info: {results['cluster_info'][:50]}"
+        )
         return results
