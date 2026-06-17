@@ -32,6 +32,7 @@ EXERCISE_REGISTRY = {
     "11": ("redis_playground.exercises.ex11_lua_scripting", "Ex11LuaScripting"),
     "12": ("redis_playground.exercises.ex12_geospatial", "Ex12Geospatial"),
     "13": ("redis_playground.exercises.ex13_bitmaps_hll", "Ex13BitmapsHLL"),
+    "17": ("redis_playground.exercises.ex17_rate_limiting", "Ex17RateLimiting"),
 }
 
 main_log = Console.for_module("main")
