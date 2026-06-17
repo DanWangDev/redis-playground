@@ -1,15 +1,6 @@
 """Tests for Exercise 01: Basic Commands."""
 
-import pytest
-
 from redis_playground.exercises.ex01_basic_commands import Ex01BasicCommands
-from tests.helpers.assertions import (
-    assert_key_exists,
-    assert_key_not_exists,
-    assert_ttl_positive,
-    assert_value_equal,
-    assert_type,
-)
 
 
 class TestEx01BasicCommands:

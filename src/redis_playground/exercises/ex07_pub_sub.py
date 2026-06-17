@@ -21,7 +21,9 @@ class Ex07PubSub(ExerciseRunner):
 
         # ── Step 1: Basic PUBLISH ───────────────────────────────
         self.log.section("Step 1: PUBLISH — Send a Message")
-        self.log.concept("PUBLISH sends a message to a channel and returns the number of subscribers.")
+        self.log.concept(
+            "PUBLISH sends a message to a channel and returns the number of subscribers."
+        )
         self.log.concept("If no one is subscribed, it returns 0 — the message is lost.")
 
         receivers = client.publish("chat:general", "Hello, Redis!")
@@ -32,8 +34,12 @@ class Ex07PubSub(ExerciseRunner):
 
         # ── Step 2: Subscribe and receive ──────────────────────
         self.log.section("Step 2: SUBSCRIBE — Listen for Messages")
-        self.log.concept("SUBSCRIBE registers interest in a channel. Messages arrive in a listener loop.")
-        self.log.concept("In redis-py, we use a separate PubSub object and a listener thread.")
+        self.log.concept(
+            "SUBSCRIBE registers interest in a channel. Messages arrive in a listener loop."
+        )
+        self.log.concept(
+            "In redis-py, we use a separate PubSub object and a listener thread."
+        )
 
         # Create a pubsub connection and subscribe in a thread
         pubsub = client.pubsub()
@@ -70,7 +76,9 @@ class Ex07PubSub(ExerciseRunner):
         # ── Step 3: Pattern subscriptions ─────────────────────
         self.log.section("Step 3: PSUBSCRIBE — Pattern Matching")
         self.log.concept("PSUBSCRIBE subscribes to channels matching a glob pattern.")
-        self.log.concept("Example: 'notifications:*' matches 'notifications:email' and 'notifications:sms'.")
+        self.log.concept(
+            "Example: 'notifications:*' matches 'notifications:email' and 'notifications:sms'."
+        )
 
         pubsub2 = client.pubsub()
         pubsub2.psubscribe("notifications:*")

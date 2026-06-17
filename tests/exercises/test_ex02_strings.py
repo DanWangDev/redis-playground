@@ -1,9 +1,6 @@
 """Tests for Exercise 02: Strings."""
 
-import pytest
-
 from redis_playground.exercises.ex02_strings import Ex02Strings
-from tests.helpers.assertions import assert_value_equal
 
 
 class TestEx02Strings:
@@ -41,7 +38,9 @@ class TestEx02Strings:
         """SETRANGE overwrites characters at an offset."""
         exercise = Ex02Strings()
         results = exercise.execute(fake_redis)
-        assert results[10] == "Hello, Redis!", "SETRANGE should overwrite 'World' with 'Redis'"
+        assert results[10] == "Hello, Redis!", (
+            "SETRANGE should overwrite 'World' with 'Redis'"
+        )
 
     def test_setnx_atomic(self, fake_redis):
         """SETNX returns 1 on first call, 0 if key already exists."""

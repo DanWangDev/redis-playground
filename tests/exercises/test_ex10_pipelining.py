@@ -1,7 +1,5 @@
 """Tests for Exercise 10: Pipelining."""
 
-import pytest
-
 from redis_playground.exercises.ex10_pipelining import Ex10Pipelining
 
 

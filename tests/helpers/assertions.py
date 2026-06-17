@@ -49,9 +49,7 @@ def assert_value_equal(client: redis.Redis, key: str, expected: str) -> None:
     )
 
 
-def assert_hash_field(
-    client: redis.Redis, key: str, field: str, expected: str
-) -> None:
+def assert_hash_field(client: redis.Redis, key: str, field: str, expected: str) -> None:
     """Assert that a hash field has the expected value."""
     actual = client.hget(key, field)
     assert actual == expected, (
@@ -69,9 +67,7 @@ def assert_list_length(client: redis.Redis, key: str, expected: int) -> None:
 
 def assert_set_member(client: redis.Redis, key: str, member: str) -> None:
     """Assert that a member exists in a set."""
-    assert client.sismember(key, member), (
-        f"Set '{key}' should contain '{member}'"
-    )
+    assert client.sismember(key, member), f"Set '{key}' should contain '{member}'"
 
 
 def assert_set_size(client: redis.Redis, key: str, expected: int) -> None:

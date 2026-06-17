@@ -1,7 +1,5 @@
 """Tests for Exercise 07: Pub/Sub."""
 
-import pytest
-
 from redis_playground.exercises.ex07_pub_sub import Ex07PubSub
 
 

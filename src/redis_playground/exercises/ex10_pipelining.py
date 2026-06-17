@@ -31,7 +31,9 @@ class Ex10Pipelining(ExerciseRunner):
         seq_time = time.perf_counter() - start
 
         self.log.command(f"SET seq:0..seq:{ITERATIONS - 1} (sequentially)")
-        self.log.output(f"Time: {seq_time:.4f}s ({seq_time / ITERATIONS * 1000:.2f}ms per SET)")
+        self.log.output(
+            f"Time: {seq_time:.4f}s ({seq_time / ITERATIONS * 1000:.2f}ms per SET)"
+        )
         results.append(seq_time)
 
         # Clean up
@@ -42,8 +44,12 @@ class Ex10Pipelining(ExerciseRunner):
 
         # ── Step 2: Pipelined commands (1 RTT total) ────────────
         self.log.section("Step 2: Pipelined Commands (1 RTT total)")
-        self.log.concept("Pipeline sends all commands at once, reads all replies at once.")
-        self.log.concept("N commands → 1 RTT. Speedup is ~N× for network-bound workloads.")
+        self.log.concept(
+            "Pipeline sends all commands at once, reads all replies at once."
+        )
+        self.log.concept(
+            "N commands → 1 RTT. Speedup is ~N× for network-bound workloads."
+        )
 
         start = time.perf_counter()
         pipe = client.pipeline(transaction=False)
@@ -53,7 +59,9 @@ class Ex10Pipelining(ExerciseRunner):
         pipe_time = time.perf_counter() - start
 
         self.log.command(f"pipeline SET pipe:0..pipe:{ITERATIONS - 1}")
-        self.log.output(f"Time: {pipe_time:.4f}s ({pipe_time / ITERATIONS * 1000:.2f}ms per SET)")
+        self.log.output(
+            f"Time: {pipe_time:.4f}s ({pipe_time / ITERATIONS * 1000:.2f}ms per SET)"
+        )
 
         speedup = seq_time / pipe_time if pipe_time > 0 else float("inf")
         self.log.success(f"Pipeline speedup: {speedup:.1f}x faster!")
@@ -68,7 +76,9 @@ class Ex10Pipelining(ExerciseRunner):
         # ── Step 3: Pipelining is NOT atomic ────────────────────
         self.log.section("Step 3: Pipelines Are NOT Atomic")
         self.log.concept("Unlike MULTI/EXEC, pipelined commands are NOT isolated.")
-        self.log.concept("Other clients' commands can interleave between pipelined commands.")
+        self.log.concept(
+            "Other clients' commands can interleave between pipelined commands."
+        )
 
         pipe = client.pipeline(transaction=False)
         pipe.set("counter", "0")
@@ -97,12 +107,16 @@ class Ex10Pipelining(ExerciseRunner):
 
         final = client.get("counter")
         self.log.output(f"Final counter: {final}")
-        self.log.concept("Counter is 3 — both pipelines and the manual increment ran, interleaved.")
+        self.log.concept(
+            "Counter is 3 — both pipelines and the manual increment ran, interleaved."
+        )
         results.append(final)
 
         # ── Step 4: Pipeline for reads too ──────────────────────
         self.log.section("Step 4: Pipeline for Batch Reads")
-        self.log.concept("Pipelines work for reads too — batch multiple GETs into one RTT.")
+        self.log.concept(
+            "Pipelines work for reads too — batch multiple GETs into one RTT."
+        )
 
         client.mset({f"user:{i}:name": f"user-{i}" for i in range(10)})
 

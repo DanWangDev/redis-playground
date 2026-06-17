@@ -19,11 +19,25 @@ class Ex03Hashes(ExerciseRunner):
 
         # ── Step 1: Create objects with HSET ───────────────────
         self.log.section("Step 1: Store Objects with HSET")
-        self.log.concept("Hashes store objects as field-value pairs — like a Python dict in Redis.")
-        self.log.concept("HSET with 'mapping' parameter sets multiple fields in one command.")
+        self.log.concept(
+            "Hashes store objects as field-value pairs — like a Python dict in Redis."
+        )
+        self.log.concept(
+            "HSET with 'mapping' parameter sets multiple fields in one command."
+        )
 
-        client.hset("user:1", mapping={"name": "Alice", "email": "alice@example.com", "age": "28", "plan": "pro"})
-        self.log.command('HSET user:1 name "Alice" email "alice@example.com" age 28 plan "pro"')
+        client.hset(
+            "user:1",
+            mapping={
+                "name": "Alice",
+                "email": "alice@example.com",
+                "age": "28",
+                "plan": "pro",
+            },
+        )
+        self.log.command(
+            'HSET user:1 name "Alice" email "alice@example.com" age 28 plan "pro"'
+        )
         self.log.success("User profile stored as hash")
 
         count = client.hlen("user:1")
@@ -33,7 +47,9 @@ class Ex03Hashes(ExerciseRunner):
 
         # ── Step 2: Retrieve fields ────────────────────────────
         self.log.section("Step 2: Retrieve Fields")
-        self.log.concept("HGET gets a single field. HMGET gets multiple. HGETALL gets everything.")
+        self.log.concept(
+            "HGET gets a single field. HMGET gets multiple. HGETALL gets everything."
+        )
 
         name = client.hget("user:1", "name")
         self.log.command("HGET user:1 name")
@@ -111,5 +127,7 @@ class Ex03Hashes(ExerciseRunner):
 
         # ── Summary ─────────────────────────────────────────────
         self.log.separator()
-        self.log.success(f"Hash operations complete: {len(client.hgetall('user:1'))} fields remaining on user:1")
+        self.log.success(
+            f"Hash operations complete: {len(client.hgetall('user:1'))} fields remaining on user:1"
+        )
         return results

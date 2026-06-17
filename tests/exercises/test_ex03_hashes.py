@@ -1,9 +1,6 @@
 """Tests for Exercise 03: Hashes."""
 
-import pytest
-
 from redis_playground.exercises.ex03_hashes import Ex03Hashes
-from tests.helpers.assertions import assert_hash_field, assert_key_exists
 
 
 class TestEx03Hashes:

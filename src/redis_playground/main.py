@@ -51,18 +51,21 @@ def main():
         description="Redis Playground — hands-on Redis learning exercises"
     )
     parser.add_argument(
-        "--exercise", "-e",
+        "--exercise",
+        "-e",
         type=str,
         required=True,
         help="Exercise number (e.g., '01', '02')",
     )
     parser.add_argument(
-        "--local", "-l",
+        "--local",
+        "-l",
         action="store_true",
         help="Use fakeredis (in-memory, no Docker needed)",
     )
     parser.add_argument(
-        "--step", "-s",
+        "--step",
+        "-s",
         action="store_true",
         help="Enable interactive step-by-step mode",
     )

@@ -1,7 +1,5 @@
 """Tests for Exercise 09: Transactions."""
 
-import pytest
-
 from redis_playground.exercises.ex09_transactions import Ex09Transactions
 
 
@@ -10,7 +8,9 @@ class TestEx09Transactions:
         """MULTI/EXEC executes commands atomically."""
         exercise = Ex09Transactions()
         results = exercise.execute(fake_redis)
-        assert results[0] == [True, True, 150, 150], "Transaction should execute all commands"
+        assert results[0] == [True, True, 150, 150], (
+            "Transaction should execute all commands"
+        )
         assert results[1] == "150", "account:a should be 150"
         assert results[2] == "150", "account:b should be 150"
 
@@ -25,4 +25,6 @@ class TestEx09Transactions:
         exercise = Ex09Transactions()
         results = exercise.execute(fake_redis)
         assert results[4] is None, "EXEC should return None when WATCHed key changed"
-        assert results[5] == "999", "Final value should be the other client's value (999)"
+        assert results[5] == "999", (
+            "Final value should be the other client's value (999)"
+        )

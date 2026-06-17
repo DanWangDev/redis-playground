@@ -19,7 +19,9 @@ class Ex06SortedSets(ExerciseRunner):
 
         # ── Step 1: Create a leaderboard ───────────────────────
         self.log.section("Step 1: ZADD — Build a Leaderboard")
-        self.log.concept("Each member has a score. Members are always ordered by score.")
+        self.log.concept(
+            "Each member has a score. Members are always ordered by score."
+        )
         self.log.concept("ZADD with a dict maps member → score in one command.")
 
         key = seed_leaderboard(client)
@@ -30,13 +32,17 @@ class Ex06SortedSets(ExerciseRunner):
 
         # ── Step 2: Top N with ZREVRANGE ──────────────────────
         self.log.section("Step 2: ZREVRANGE — Top Players")
-        self.log.concept("ZREVRANGE returns members in reverse order (highest score first).")
+        self.log.concept(
+            "ZREVRANGE returns members in reverse order (highest score first)."
+        )
         self.log.concept("WITHSCORES includes scores in the response.")
 
         top3 = client.zrevrange(key, 0, 2, withscores=True)
         self.log.command(f"ZREVRANGE {key} 0 2 WITHSCORES")
-        self.log.table(["Rank", "Player", "Score"],
-                        [[str(i + 1), name, str(score)] for i, (name, score) in enumerate(top3)])
+        self.log.table(
+            ["Rank", "Player", "Score"],
+            [[str(i + 1), name, str(score)] for i, (name, score) in enumerate(top3)],
+        )
         results.append(top3)
 
         # ── Step 3: Rank and reverse rank ─────────────────────
@@ -56,7 +62,9 @@ class Ex06SortedSets(ExerciseRunner):
         # ── Step 4: Increment scores ──────────────────────────
         self.log.section("Step 4: ZINCRBY — Update Scores")
         self.log.concept("ZINCRBY atomically increments a member's score.")
-        self.log.concept("If the member doesn't exist, it's added with the increment as its score.")
+        self.log.concept(
+            "If the member doesn't exist, it's added with the increment as its score."
+        )
 
         new_score = client.zincrby(key, 500, "player:eve")
         self.log.command(f"ZINCRBY {key} 500 player:eve")
@@ -69,7 +77,9 @@ class Ex06SortedSets(ExerciseRunner):
 
         # ── Step 5: Count by score range ──────────────────────
         self.log.section("Step 5: ZCOUNT — Count by Score Range")
-        self.log.concept("ZCOUNT returns the count of members with scores in a given range.")
+        self.log.concept(
+            "ZCOUNT returns the count of members with scores in a given range."
+        )
 
         mid_tier = client.zcount(key, 8000, 9000)
         self.log.command(f"ZCOUNT {key} 8000 9000")
@@ -83,7 +93,9 @@ class Ex06SortedSets(ExerciseRunner):
 
         # ── Step 6: Remove a player ────────────────────────────
         self.log.section("Step 6: ZREM — Remove Members")
-        self.log.concept("ZREM removes one or more members and returns the count removed.")
+        self.log.concept(
+            "ZREM removes one or more members and returns the count removed."
+        )
 
         removed = client.zrem(key, "player:jack")
         self.log.command(f"ZREM {key} player:jack")

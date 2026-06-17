@@ -1,12 +1,6 @@
 """Tests for Exercise 06: Sorted Sets."""
 
-import pytest
-
 from redis_playground.exercises.ex06_sorted_sets import Ex06SortedSets
-from tests.helpers.assertions import (
-    assert_sorted_set_rank,
-    assert_sorted_set_score,
-)
 
 
 class TestEx06SortedSets:

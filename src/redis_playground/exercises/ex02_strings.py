@@ -20,7 +20,9 @@ class Ex02Strings(ExerciseRunner):
         # ── Step 1: Atomic counters ────────────────────────────
         self.log.section("Step 1: Atomic Counters")
         self.log.concept("INCR atomically increments a counter. No race conditions.")
-        self.log.concept("If the key doesn't exist, INCR creates it as 0 then increments to 1.")
+        self.log.concept(
+            "If the key doesn't exist, INCR creates it as 0 then increments to 1."
+        )
 
         views = client.incr("article:42:views")
         self.log.command("INCR article:42:views")
@@ -39,7 +41,7 @@ class Ex02Strings(ExerciseRunner):
         results.append(score)
 
         # DECR
-        stock = client.set("inventory:item:1", "50")
+        client.set("inventory:item:1", "50")
         remaining = client.decr("inventory:item:1")
         self.log.command("DECR inventory:item:1")
         self.log.output(f"→ {remaining}")
@@ -48,19 +50,33 @@ class Ex02Strings(ExerciseRunner):
         # ── Step 2: Bulk MSET and MGET ─────────────────────────
         self.log.section("Step 2: Bulk MSET and MGET")
         self.log.concept("MSET sets multiple keys in a single round-trip.")
-        self.log.concept("MGET retrieves multiple keys at once — returns None for missing keys.")
+        self.log.concept(
+            "MGET retrieves multiple keys at once — returns None for missing keys."
+        )
 
-        client.mset({"user:1:name": "Alice", "user:1:email": "alice@example.com", "user:1:plan": "pro"})
-        self.log.command('MSET user:1:name "Alice" user:1:email "alice@example.com" user:1:plan "pro"')
+        client.mset(
+            {
+                "user:1:name": "Alice",
+                "user:1:email": "alice@example.com",
+                "user:1:plan": "pro",
+            }
+        )
+        self.log.command(
+            'MSET user:1:name "Alice" user:1:email "alice@example.com" user:1:plan "pro"'
+        )
 
-        values = client.mget(["user:1:name", "user:1:email", "user:1:plan", "user:1:missing"])
+        values = client.mget(
+            ["user:1:name", "user:1:email", "user:1:plan", "user:1:missing"]
+        )
         self.log.command("MGET user:1:name user:1:email user:1:plan user:1:missing")
         self.log.output(str(values))
         results.extend(values)
 
         # ── Step 3: String slicing ─────────────────────────────
         self.log.section("Step 3: String Slicing")
-        self.log.concept("GETRANGE extracts a substring by character position (inclusive).")
+        self.log.concept(
+            "GETRANGE extracts a substring by character position (inclusive)."
+        )
         self.log.concept("SETRANGE overwrites characters starting at an offset.")
 
         client.set("greeting", "Hello, World!")
@@ -87,7 +103,9 @@ class Ex02Strings(ExerciseRunner):
         # ── Step 4: SETNX (set-if-not-exists) ─────────────────
         self.log.section("Step 4: SETNX — Atomic Set-If-Not-Exists")
         self.log.concept("SETNX sets a key only if it doesn't already exist.")
-        self.log.concept("Returns 1 if set, 0 if key already exists. Foundation for distributed locks.")
+        self.log.concept(
+            "Returns 1 if set, 0 if key already exists. Foundation for distributed locks."
+        )
 
         nx1 = client.setnx("lock:resource", "owner-1")
         self.log.command('SETNX lock:resource "owner-1"')

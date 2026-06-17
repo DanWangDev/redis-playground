@@ -18,8 +18,12 @@ class Ex09Transactions(ExerciseRunner):
 
         # ── Step 1: MULTI/EXEC — Atomic batch ──────────────────
         self.log.section("Step 1: MULTI/EXEC — Atomic Command Batch")
-        self.log.concept("Commands between MULTI and EXEC are queued, then executed atomically.")
-        self.log.concept("No other client can see intermediate state between the commands.")
+        self.log.concept(
+            "Commands between MULTI and EXEC are queued, then executed atomically."
+        )
+        self.log.concept(
+            "No other client can see intermediate state between the commands."
+        )
 
         pipeline = client.pipeline(transaction=True)
         pipeline.set("account:a", 100)
@@ -27,15 +31,17 @@ class Ex09Transactions(ExerciseRunner):
         pipeline.incrby("account:a", 50)
         pipeline.decrby("account:b", 50)
         self.log.command("MULTI")
-        self.log.command('SET account:a 100')
-        self.log.command('SET account:b 200')
-        self.log.command('INCRBY account:a 50')
-        self.log.command('DECRBY account:b 50')
+        self.log.command("SET account:a 100")
+        self.log.command("SET account:b 200")
+        self.log.command("INCRBY account:a 50")
+        self.log.command("DECRBY account:b 50")
         self.log.command("EXEC")
 
         result = pipeline.execute()
         self.log.output(f"Transaction result: {result}")
-        self.log.concept("account:a = 150, account:b = 150 — transfer complete, atomically.")
+        self.log.concept(
+            "account:a = 150, account:b = 150 — transfer complete, atomically."
+        )
 
         a_balance = client.get("account:a")
         b_balance = client.get("account:b")
@@ -47,7 +53,9 @@ class Ex09Transactions(ExerciseRunner):
 
         # ── Step 2: DISCARD — Cancel a transaction ─────────────
         self.log.section("Step 2: DISCARD — Cancel a Transaction")
-        self.log.concept("DISCARD aborts the transaction — queued commands are never executed.")
+        self.log.concept(
+            "DISCARD aborts the transaction — queued commands are never executed."
+        )
 
         pipeline = client.pipeline(transaction=True)
         pipeline.set("will_be_discarded", "should not exist")
@@ -69,8 +77,12 @@ class Ex09Transactions(ExerciseRunner):
 
         # ── Step 3: WATCH — Optimistic locking ─────────────────
         self.log.section("Step 3: WATCH — Optimistic Locking")
-        self.log.concept("WATCH monitors a key. If the key changes before EXEC, the transaction aborts.")
-        self.log.concept("This implements optimistic concurrency control — try, check, retry if needed.")
+        self.log.concept(
+            "WATCH monitors a key. If the key changes before EXEC, the transaction aborts."
+        )
+        self.log.concept(
+            "This implements optimistic concurrency control — try, check, retry if needed."
+        )
 
         # Set up account
         client.set("account:c", 500)
@@ -101,10 +113,14 @@ class Ex09Transactions(ExerciseRunner):
             exec_result = None  # WATCH detected change — transaction aborted
         self.log.command(f"MULTI → SET account:c {current_val - 100} → EXEC")
         self.log.output(f"EXEC result: {exec_result} (None = aborted!)")
-        self.log.concept("The WATCH detected the change — transaction aborted to prevent lost update.")
+        self.log.concept(
+            "The WATCH detected the change — transaction aborted to prevent lost update."
+        )
 
         final_val = client.get("account:c")
-        self.log.output(f"Final value: {final_val} (should be 999, not {current_val - 100})")
+        self.log.output(
+            f"Final value: {final_val} (should be 999, not {current_val - 100})"
+        )
         results.extend([exec_result, final_val])
 
         # ── Summary ─────────────────────────────────────────────

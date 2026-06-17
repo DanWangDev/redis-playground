@@ -1,7 +1,5 @@
 """Tests for Exercise 08: Streams."""
 
-import pytest
-
 from redis_playground.exercises.ex08_streams import Ex08Streams
 
 

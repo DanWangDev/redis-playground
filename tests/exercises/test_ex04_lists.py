@@ -1,9 +1,6 @@
 """Tests for Exercise 04: Lists."""
 
-import pytest
-
 from redis_playground.exercises.ex04_lists import Ex04Lists
-from tests.helpers.assertions import assert_list_length
 
 
 class TestEx04Lists:
@@ -30,7 +27,9 @@ class TestEx04Lists:
         exercise = Ex04Lists()
         results = exercise.execute(fake_redis)
         assert results[3] == ["apple", "banana"], "LRANGE 0 1 should return first two"
-        assert results[4] == ["date", "elderberry"], "LRANGE -2 -1 should return last two"
+        assert results[4] == ["date", "elderberry"], (
+            "LRANGE -2 -1 should return last two"
+        )
 
     def test_ltrim_cap(self, fake_redis):
         """LTRIM caps list to specified range."""

@@ -19,16 +19,22 @@ class Ex08Streams(ExerciseRunner):
 
         # ── Step 1: XADD — Append to stream ────────────────────
         self.log.section("Step 1: XADD — Append to a Stream")
-        self.log.concept("XADD adds an entry to a stream. Use * for auto-generated IDs.")
+        self.log.concept(
+            "XADD adds an entry to a stream. Use * for auto-generated IDs."
+        )
         self.log.concept("Each entry is a set of field-value pairs (like a mini-hash).")
 
         client.delete("events")  # Clean start
 
-        id1 = client.xadd("events", {"type": "page_view", "user": "alice", "page": "/home"})
+        id1 = client.xadd(
+            "events", {"type": "page_view", "user": "alice", "page": "/home"}
+        )
         self.log.command('XADD events * type "page_view" user "alice" page "/home"')
         self.log.output(f"Entry ID: {id1}")
 
-        id2 = client.xadd("events", {"type": "purchase", "user": "bob", "amount": "49.99"})
+        id2 = client.xadd(
+            "events", {"type": "purchase", "user": "bob", "amount": "49.99"}
+        )
         self.log.command('XADD events * type "purchase" user "bob" amount "49.99"')
         self.log.output(f"Entry ID: {id2}")
 
@@ -39,8 +45,12 @@ class Ex08Streams(ExerciseRunner):
 
         # ── Step 2: XREAD — Read from stream ───────────────────
         self.log.section("Step 2: XREAD — Read Entries")
-        self.log.concept("XREAD reads entries from one or more streams starting at a given ID.")
-        self.log.concept("Use '0' to read from the beginning, or '$' for new entries only.")
+        self.log.concept(
+            "XREAD reads entries from one or more streams starting at a given ID."
+        )
+        self.log.concept(
+            "Use '0' to read from the beginning, or '$' for new entries only."
+        )
 
         entries = client.xread({"events": "0"}, count=2)
         self.log.command("XREAD COUNT 2 STREAMS events 0")
@@ -59,7 +69,9 @@ class Ex08Streams(ExerciseRunner):
 
         # ── Step 4: Consumer group ─────────────────────────────
         self.log.section("Step 4: XGROUP CREATE — Consumer Group")
-        self.log.concept("Consumer groups enable fan-out: multiple apps can read the same stream independently.")
+        self.log.concept(
+            "Consumer groups enable fan-out: multiple apps can read the same stream independently."
+        )
         self.log.concept("Each consumer in a group gets its own subset of messages.")
 
         # Create consumer group (destroy first if exists)
@@ -68,16 +80,20 @@ class Ex08Streams(ExerciseRunner):
         except Exception:
             pass
         client.xgroup_create("events", "mygroup", "0", mkstream=False)
-        self.log.command('XGROUP CREATE events mygroup 0')
+        self.log.command("XGROUP CREATE events mygroup 0")
         self.log.success("Consumer group 'mygroup' created")
         results.append("mygroup")
 
         # ── Step 5: XREADGROUP — Read as consumer ──────────────
         self.log.section("Step 5: XREADGROUP — Read as Consumer Group")
         self.log.concept("XREADGROUP reads messages assigned to a consumer in a group.")
-        self.log.concept("Use '>' to get new (never-delivered) messages. Use '0' for pending messages.")
+        self.log.concept(
+            "Use '>' to get new (never-delivered) messages. Use '0' for pending messages."
+        )
 
-        group_msgs = client.xreadgroup("mygroup", "consumer-1", {"events": ">"}, count=2)
+        group_msgs = client.xreadgroup(
+            "mygroup", "consumer-1", {"events": ">"}, count=2
+        )
         self.log.command("XREADGROUP GROUP mygroup consumer-1 COUNT 2 STREAMS events >")
         msg_ids = []
         for _, msgs in group_msgs:
@@ -91,7 +107,9 @@ class Ex08Streams(ExerciseRunner):
         # ── Step 6: XACK — Acknowledge messages ────────────────
         self.log.section("Step 6: XACK — Acknowledge Messages")
         self.log.concept("XACK removes messages from the pending entries list (PEL).")
-        self.log.concept("Without ACK, messages stay pending forever and are redelivered to other consumers.")
+        self.log.concept(
+            "Without ACK, messages stay pending forever and are redelivered to other consumers."
+        )
 
         if msg_ids:
             acked = client.xack("events", "mygroup", *msg_ids)
