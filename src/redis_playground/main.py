@@ -29,7 +29,6 @@ EXERCISE_REGISTRY = {
     "08": ("redis_playground.exercises.ex08_streams", "Ex08Streams"),
     "09": ("redis_playground.exercises.ex09_transactions", "Ex09Transactions"),
     "10": ("redis_playground.exercises.ex10_pipelining", "Ex10Pipelining"),
->>>>>>> 1fdcfd3 (feat: add Exercise 10 - Pipelining)
 }
 
 main_log = Console.for_module("main")
