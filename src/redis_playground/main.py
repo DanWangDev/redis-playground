@@ -31,6 +31,7 @@ EXERCISE_REGISTRY = {
     "10": ("redis_playground.exercises.ex10_pipelining", "Ex10Pipelining"),
     "11": ("redis_playground.exercises.ex11_lua_scripting", "Ex11LuaScripting"),
     "12": ("redis_playground.exercises.ex12_geospatial", "Ex12Geospatial"),
+    "14": ("redis_playground.exercises.ex14_keyspace_notifications", "Ex14KeyspaceNotifications"),
 }
 
 main_log = Console.for_module("main")
