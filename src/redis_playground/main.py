@@ -24,6 +24,7 @@ EXERCISE_REGISTRY = {
     "03": ("redis_playground.exercises.ex03_hashes", "Ex03Hashes"),
     "04": ("redis_playground.exercises.ex04_lists", "Ex04Lists"),
     "05": ("redis_playground.exercises.ex05_sets", "Ex05Sets"),
+    "06": ("redis_playground.exercises.ex06_sorted_sets", "Ex06SortedSets"),
 }
 
 main_log = Console.for_module("main")
