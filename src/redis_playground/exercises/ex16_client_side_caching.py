@@ -13,8 +13,12 @@ class Ex16ClientSideCaching(ExerciseRunner):
         results = {}
 
         self.log.section("Step 1: Enable RESP3 Client Tracking")
-        self.log.concept("Client-side caching requires RESP3 protocol and CLIENT TRACKING ON.")
-        self.log.concept("This feature requires a real Redis server — fakeredis doesn't support it.")
+        self.log.concept(
+            "Client-side caching requires RESP3 protocol and CLIENT TRACKING ON."
+        )
+        self.log.concept(
+            "This feature requires a real Redis server — fakeredis doesn't support it."
+        )
 
         try:
             client.execute_command("CLIENT", "TRACKING", "ON")
@@ -23,14 +27,18 @@ class Ex16ClientSideCaching(ExerciseRunner):
             results["tracking_enabled"] = True
         except Exception as e:
             self.log.warn(f"CLIENT TRACKING not available: {e}")
-            self.log.concept("Run with real Redis via `docker compose up -d` to try this feature.")
+            self.log.concept(
+                "Run with real Redis via `docker compose up -d` to try this feature."
+            )
             results["tracking_enabled"] = False
             self.log.separator()
             self.log.success("Client-side caching: requires real Redis with RESP3")
             return results
 
         self.log.section("Step 2: Local Cache Simulation")
-        self.log.concept("A local dict simulates the client-side cache. Redis tracks reads.")
+        self.log.concept(
+            "A local dict simulates the client-side cache. Redis tracks reads."
+        )
         local_cache = {}
         client.set("user:profile:1", "Alice's Profile Data")
         self.log.command('SET user:profile:1 "Alice\'s Profile Data"')
@@ -43,10 +51,14 @@ class Ex16ClientSideCaching(ExerciseRunner):
         results["cache_hit_value"] = val
 
         self.log.section("Step 3: Invalidation on Modification")
-        self.log.concept("When another client modifies the key, Redis pushes an invalidation message.")
+        self.log.concept(
+            "When another client modifies the key, Redis pushes an invalidation message."
+        )
         client.set("user:profile:1", "Updated Profile")
         self.log.command('SET user:profile:1 "Updated Profile" (modification)')
-        self.log.concept("In a real RESP3 setup, this would push an invalidation message to our listener.")
+        self.log.concept(
+            "In a real RESP3 setup, this would push an invalidation message to our listener."
+        )
         self.log.output("Local cache should now be invalidated (stale)")
         results["invalidated"] = True
 

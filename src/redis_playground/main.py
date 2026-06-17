@@ -31,7 +31,10 @@ EXERCISE_REGISTRY = {
     "10": ("redis_playground.exercises.ex10_pipelining", "Ex10Pipelining"),
     "11": ("redis_playground.exercises.ex11_lua_scripting", "Ex11LuaScripting"),
     "12": ("redis_playground.exercises.ex12_geospatial", "Ex12Geospatial"),
-    "16": ("redis_playground.exercises.ex16_client_side_caching", "Ex16ClientSideCaching"),
+    "16": (
+        "redis_playground.exercises.ex16_client_side_caching",
+        "Ex16ClientSideCaching",
+    ),
 }
 
 main_log = Console.for_module("main")
