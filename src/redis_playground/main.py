@@ -22,6 +22,7 @@ EXERCISE_REGISTRY = {
     "01": ("redis_playground.exercises.ex01_basic_commands", "Ex01BasicCommands"),
     "02": ("redis_playground.exercises.ex02_strings", "Ex02Strings"),
     "03": ("redis_playground.exercises.ex03_hashes", "Ex03Hashes"),
+    "04": ("redis_playground.exercises.ex04_lists", "Ex04Lists"),
 }
 
 main_log = Console.for_module("main")
