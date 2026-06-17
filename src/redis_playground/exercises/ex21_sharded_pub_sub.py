@@ -54,23 +54,30 @@ class Ex21ShardedPubSub(ExerciseRunner):
         self.log.command("SSUBSCRIBE orders:new")
 
         received = []
+        stop_event = threading.Event()
 
         def listener():
-            for msg in pubsub.listen():
-                if msg.get("type") == "smessage":
-                    received.append(msg.get("data", ""))
+            try:
+                for msg in pubsub.listen():
+                    if stop_event.is_set():
+                        break
+                    if msg.get("type") == "smessage":
+                        received.append(msg.get("data", ""))
+            except Exception:
+                pass
 
         t = threading.Thread(target=listener, daemon=True)
         t.start()
-        time.sleep(0.1)
+        time.sleep(0.15)
 
         client.execute_command("SPUBLISH", "orders:new", "Order #1 created")
         self.log.command('SPUBLISH orders:new "Order #1 created"')
-        time.sleep(0.2)
+        time.sleep(0.25)
         self.log.output(f"Received: {received}")
         results["message_count"] = len(received)
-        pubsub.execute_command("SUNSUBSCRIBE", "orders:new")
+        stop_event.set()
         pubsub.close()
+        t.join(timeout=1.0)
 
         self.log.section("Step 3: Sharded vs Classic — Side by Side")
         self.log.concept(
@@ -84,42 +91,56 @@ class Ex21ShardedPubSub(ExerciseRunner):
         classic_pubsub = client.pubsub()
         classic_pubsub.subscribe("events:classic")
         classic_received = []
+        classic_stop = threading.Event()
 
         def classic_listener():
-            for msg in classic_pubsub.listen():
-                if msg.get("type") == "message":
-                    classic_received.append(msg.get("data", ""))
+            try:
+                for msg in classic_pubsub.listen():
+                    if classic_stop.is_set():
+                        break
+                    if msg.get("type") == "message":
+                        classic_received.append(msg.get("data", ""))
+            except Exception:
+                pass
 
         t2 = threading.Thread(target=classic_listener, daemon=True)
         t2.start()
-        time.sleep(0.1)
+        time.sleep(0.15)
         client.publish("events:classic", "Broadcast message")
-        time.sleep(0.2)
+        time.sleep(0.25)
         results["classic_received"] = len(classic_received)
-        classic_pubsub.unsubscribe("events:classic")
+        classic_stop.set()
         classic_pubsub.close()
+        t2.join(timeout=1.0)
 
         self.log.command("SUBSCRIBE events:classic → PUBLISH events:classic")
         self.log.output(f"Classic received: {len(classic_received)} message(s)")
 
-        # Sharded Pub/Sub (same pattern, different commands)
+        # Sharded Pub/Sub
         sharded2 = client.pubsub()
         sharded2.execute_command("SSUBSCRIBE", "events:sharded")
         sharded_received = []
+        sharded_stop = threading.Event()
 
         def sharded_listener():
-            for msg in sharded2.listen():
-                if msg.get("type") == "smessage":
-                    sharded_received.append(msg.get("data", ""))
+            try:
+                for msg in sharded2.listen():
+                    if sharded_stop.is_set():
+                        break
+                    if msg.get("type") == "smessage":
+                        sharded_received.append(msg.get("data", ""))
+            except Exception:
+                pass
 
         t3 = threading.Thread(target=sharded_listener, daemon=True)
         t3.start()
-        time.sleep(0.1)
+        time.sleep(0.15)
         client.execute_command("SPUBLISH", "events:sharded", "Sharded message")
-        time.sleep(0.2)
+        time.sleep(0.25)
         results["sharded_received"] = len(sharded_received)
-        sharded2.execute_command("SUNSUBSCRIBE", "events:sharded")
+        sharded_stop.set()
         sharded2.close()
+        t3.join(timeout=1.0)
 
         self.log.command("SSUBSCRIBE events:sharded → SPUBLISH events:sharded")
         self.log.output(f"Sharded received: {len(sharded_received)} message(s)")
