@@ -35,6 +35,12 @@ python -m redis_playground.main --exercise 01 --local --step
 | 18 | 分布式锁 | SET NX PX, Redlock 算法, 栅栏令牌 |
 | 19 | 哨兵 | 哨兵监控, 自动故障转移, 主节点选举 |
 | 20 | 集群 | 哈希槽, MOVED/ASK 重定向, 重新分片 |
+| 21 | 分片发布/订阅 | SSUBSCRIBE, SPUBLISH, 分片频道分布 |
+| 22 | SCAN | SCAN, HSCAN, SSCAN, ZSCAN — 基于游标的迭代 |
+| 23 | RedisJSON | JSON.SET, JSON.GET, JSON.NUMINCRBY, JSON.ARRAPPEND |
+| 24 | RediSearch | FT.CREATE, FT.SEARCH — 全文搜索与过滤 |
+| 25 | RedisTimeSeries | TS.CREATE, TS.ADD, TS.RANGE 与聚合 |
+| 26 | FUNCTION | FUNCTION LOAD, FCALL — Redis 7 持久化服务端函数 |
 
 ## CLI 参考
 

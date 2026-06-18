@@ -45,6 +45,12 @@ Open RedisInsight at http://localhost:8001 to explore data visually.
 | 18 | Distributed Locks | SET NX PX, Redlock algorithm, fencing tokens |
 | 19 | Sentinel | Sentinel monitoring, automatic failover, master election |
 | 20 | Cluster | Hash slots, MOVED/ASK redirect, resharding |
+| 21 | Sharded Pub/Sub | SSUBSCRIBE, SPUBLISH, sharded channel distribution |
+| 22 | SCAN | SCAN, HSCAN, SSCAN, ZSCAN — cursor-based iteration |
+| 23 | RedisJSON | JSON.SET, JSON.GET, JSON.NUMINCRBY, JSON.ARRAPPEND |
+| 24 | RediSearch | FT.CREATE, FT.SEARCH — full-text search with filters |
+| 25 | RedisTimeSeries | TS.CREATE, TS.ADD, TS.RANGE with aggregation |
+| 26 | FUNCTION | FUNCTION LOAD, FCALL — durable Redis 7 server-side functions |
 
 ## CLI Reference
 
