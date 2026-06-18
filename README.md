@@ -1,6 +1,8 @@
 # Redis Playground
 
-Hands-on Redis learning playground with 20 progressive exercises. Each exercise includes a runnable Python class, unit tests, and bilingual concept documentation (English + Chinese).
+[中文版本](README.zh-CN.md) | [English](README.md)
+
+Hands-on Redis learning playground with 26 progressive exercises. Each exercise includes a runnable Python class, unit tests, and bilingual concept documentation (English + Chinese).
 
 ## Quick Start
 
