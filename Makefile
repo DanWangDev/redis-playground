@@ -1,4 +1,4 @@
-.PHONY: help install test test-integration test-cov lint fmt clean cluster-start cluster-stop cluster-status exercise-% exercise-local-%
+.PHONY: help install install-dev build test test-integration test-cov lint fmt clean cluster-start cluster-stop cluster-logs cluster-status exercise-% exercise-local-%
 
 help: ## Show this help
 	@echo "Redis Playground"
@@ -55,8 +55,17 @@ cluster-start:
 cluster-stop:
 	docker compose down --volumes
 
+cluster-logs:
+	docker compose logs --tail=100
+
 cluster-status:
 	docker compose exec redis redis-cli -a playground ping
+
+clean:
+	rm -rf __pycache__ .pytest_cache .ruff_cache htmlcov .coverage coverage.xml
+
+build:
+	pip install -e ".[dev]"
 
 exercise-%:
 	python -m redis_playground.main --exercise $* --no-step
