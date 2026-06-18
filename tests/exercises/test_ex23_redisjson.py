@@ -22,7 +22,7 @@ class TestEx23RedisJSON:
         results = Ex23RedisJSON().execute(real_redis)
         if results["json_available"]:
             assert results["new_age"] == [
-                2
+                29
             ]  # 28 + 1 = 29 → JSON.NUMINCRBY returns [29]
 
     @pytest.mark.integration
