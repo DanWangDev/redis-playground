@@ -28,15 +28,21 @@ class Ex26Function(ExerciseRunner):
         results = {}
 
         self.log.section("Step 1: FUNCTION LOAD — Load a Library")
-        self.log.concept("Functions are durable — they survive restarts, unlike EVAL scripts.")
-        self.log.concept("Requires Redis 7.0+ — may not be available in older versions.")
+        self.log.concept(
+            "Functions are durable — they survive restarts, unlike EVAL scripts."
+        )
+        self.log.concept(
+            "Requires Redis 7.0+ — may not be available in older versions."
+        )
         try:
             client.execute_command("FUNCTION", "LOAD", "REPLACE", INVENTORY_LIB)
             self.log.command("FUNCTION LOAD REPLACE (inventory library)")
             self.log.success("Library loaded: mylib")
         except redis.exceptions.ResponseError as e:
             self.log.warn(f"FUNCTION LOAD not available: {e}")
-            self.log.concept("Run with Redis 7.0+ to try durable server-side functions.")
+            self.log.concept(
+                "Run with Redis 7.0+ to try durable server-side functions."
+            )
             results["func_available"] = False
             self.log.separator()
             self.log.success("FUNCTION requires Redis 7.0+")
@@ -52,16 +58,22 @@ class Ex26Function(ExerciseRunner):
         results["lib_name"] = lib_name
 
         self.log.section("Step 3: FCALL — Call a Function")
-        self.log.concept("FCALL calls a registered function by name — no SHA hash needed.")
+        self.log.concept(
+            "FCALL calls a registered function by name — no SHA hash needed."
+        )
         client.set("inventory:widget", "100")
         self.log.command("SET inventory:widget 100")
 
-        remaining = client.execute_command("FCALL", "checkout", "1", "inventory:widget", "30")
+        remaining = client.execute_command(
+            "FCALL", "checkout", "1", "inventory:widget", "30"
+        )
         self.log.command("FCALL checkout 1 inventory:widget 30")
         self.log.output(f"Remaining after checkout: {remaining}")
         results["after_checkout"] = remaining
 
-        failed = client.execute_command("FCALL", "checkout", "1", "inventory:widget", "80")
+        failed = client.execute_command(
+            "FCALL", "checkout", "1", "inventory:widget", "80"
+        )
         self.log.command("FCALL checkout 1 inventory:widget 80")
         self.log.output(f"Insufficient stock: {failed} (-1 = rejected)")
         results["insufficient"] = failed
