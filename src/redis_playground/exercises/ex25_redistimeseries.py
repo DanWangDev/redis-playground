@@ -20,7 +20,7 @@ class Ex25RedisTimeSeries(ExerciseRunner):
         self.log.concept("Requires Redis Stack — may not be available in plain Redis.")
         try:
             try:
-                client.execute_command("TS.DEL", "ts:sensor:1")
+                client.delete("ts:sensor:1")
             except redis.exceptions.ResponseError:
                 pass
             client.execute_command("TS.CREATE", "ts:sensor:1", "RETENTION", "86400000")
@@ -69,7 +69,7 @@ class Ex25RedisTimeSeries(ExerciseRunner):
             self.log.output(f"  ts={bucket[0]}, avg={bucket[1]}")
         results["agg_buckets"] = len(agg)
 
-        client.execute_command("TS.DEL", "ts:sensor:1")
+        client.delete("ts:sensor:1")
 
         self.log.separator()
         self.log.success(
