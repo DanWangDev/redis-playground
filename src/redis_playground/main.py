@@ -49,6 +49,8 @@ EXERCISE_REGISTRY = {
     "21": ("redis_playground.exercises.ex21_sharded_pub_sub", "Ex21ShardedPubSub"),
     "22": ("redis_playground.exercises.ex22_scan", "Ex22Scan"),
     "23": ("redis_playground.exercises.ex23_redisjson", "Ex23RedisJSON"),
+    "24": ("redis_playground.exercises.ex24_redisearch", "Ex24RediSearch"),
+    "25": ("redis_playground.exercises.ex25_redistimeseries", "Ex25RedisTimeSeries"),
     "26": ("redis_playground.exercises.ex26_function", "Ex26Function"),
 }
 
