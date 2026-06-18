@@ -21,7 +21,9 @@ class TestEx23RedisJSON:
     def test_json_numincrby(self, real_redis):
         results = Ex23RedisJSON().execute(real_redis)
         if results["json_available"]:
-            assert results["new_age"] == [2]  # 28 + 1 = 29 → JSON.NUMINCRBY returns [29]
+            assert results["new_age"] == [
+                2
+            ]  # 28 + 1 = 29 → JSON.NUMINCRBY returns [29]
 
     @pytest.mark.integration
     def test_json_arrappend(self, real_redis):

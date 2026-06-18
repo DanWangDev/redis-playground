@@ -14,20 +14,28 @@ class Ex23RedisJSON(ExerciseRunner):
 
         self.log.section("Step 1: JSON.SET — Store a Document")
         self.log.concept("JSON.SET stores a JSON document at a key with a JSONPath.")
-        self.log.concept("Requires Redis Stack — may not be available in plain Redis or older fakeredis.")
+        self.log.concept(
+            "Requires Redis Stack — may not be available in plain Redis or older fakeredis."
+        )
         try:
             client.execute_command(
-                "JSON.SET", "user:1", "$",
-                '{"name":"Alice","age":28,"plan":"pro","tags":["redis","python"]}'
+                "JSON.SET",
+                "user:1",
+                "$",
+                '{"name":"Alice","age":28,"plan":"pro","tags":["redis","python"]}',
             )
             self.log.command('JSON.SET user:1 $ \'{"name":"Alice","age":28,...}\'')
             self.log.success("Document stored with RedisJSON")
         except redis.exceptions.ResponseError as e:
             self.log.warn(f"JSON.SET not available: {e}")
-            self.log.concept("Run with Docker `redis/redis-stack:latest` for RedisJSON support.")
+            self.log.concept(
+                "Run with Docker `redis/redis-stack:latest` for RedisJSON support."
+            )
             results["json_available"] = False
             self.log.separator()
-            self.log.success("RedisJSON requires Redis Stack — exercise complete (conceptual)")
+            self.log.success(
+                "RedisJSON requires Redis Stack — exercise complete (conceptual)"
+            )
             return results
 
         results["json_available"] = True
@@ -50,7 +58,9 @@ class Ex23RedisJSON(ExerciseRunner):
         results["new_age"] = new_age
 
         self.log.section("Step 4: JSON.ARRAPPEND — Modify Arrays")
-        arr_len = client.execute_command("JSON.ARRAPPEND", "user:1", "$.tags", '"docker"', '"lua"')
+        arr_len = client.execute_command(
+            "JSON.ARRAPPEND", "user:1", "$.tags", '"docker"', '"lua"'
+        )
         self.log.command('JSON.ARRAPPEND user:1 $.tags "docker" "lua"')
         self.log.output(f"Array length now: {arr_len}")
         results["arr_len"] = arr_len
