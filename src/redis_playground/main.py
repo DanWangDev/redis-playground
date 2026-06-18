@@ -3,7 +3,8 @@
 Usage:
     python -m redis_playground.main --exercise 01 --local --step
     python -m redis_playground.main --exercise 01 --local --no-step
-    python -m redis_playground.main --exercise 01   # real Redis (Docker)
+    python -m redis_playground.main --all --local          # run all exercises
+    python -m redis_playground.main --exercise 01           # real Redis (Docker)
 
 Mirrors flink-playground's Main.java with EXERCISE_REGISTRY and
 reflection-based exercise loading.
@@ -72,8 +73,13 @@ def main():
         "--exercise",
         "-e",
         type=str,
-        required=True,
         help="Exercise number (e.g., '01', '02')",
+    )
+    parser.add_argument(
+        "--all",
+        "-a",
+        action="store_true",
+        help="Run all exercises sequentially",
     )
     parser.add_argument(
         "--local",
@@ -94,23 +100,42 @@ def main():
     )
     args = parser.parse_args()
 
-    exercise_id = args.exercise.zfill(2)
+    if not args.all and not args.exercise:
+        parser.error("Either --exercise or --all is required")
 
     step = StepPause(enabled=args.step and not args.no_step)
     client = create_client(local=args.local)
 
-    exercise_cls = load_exercise(exercise_id)
-    runner = exercise_cls()
-    runner.set_step_pause(step)
-
-    try:
-        results = runner.execute(client)
-        main_log.success(
-            f"Exercise {exercise_id} completed with {len(results)} result(s)"
-        )
-    except Exception as e:
-        main_log.error(f"Exercise {exercise_id} failed: {e}")
-        raise
+    if args.all:
+        main_log.header("Running All Exercises")
+        total = len(EXERCISE_REGISTRY)
+        passed = 0
+        for i, ex_id in enumerate(sorted(EXERCISE_REGISTRY.keys()), 1):
+            exercise_cls = load_exercise(ex_id)
+            runner = exercise_cls()
+            runner.set_step_pause(step)
+            try:
+                runner.execute(client)
+                passed += 1
+            except Exception as e:
+                main_log.error(f"[{i}/{total}] Exercise {ex_id} FAILED: {e}")
+                break
+        main_log.summary(f"Completed: {passed}/{total} exercises")
+        if passed < total:
+            sys.exit(1)
+    else:
+        exercise_id = args.exercise.zfill(2)
+        exercise_cls = load_exercise(exercise_id)
+        runner = exercise_cls()
+        runner.set_step_pause(step)
+        try:
+            results = runner.execute(client)
+            main_log.success(
+                f"Exercise {exercise_id} completed with {len(results)} result(s)"
+            )
+        except Exception as e:
+            main_log.error(f"Exercise {exercise_id} failed: {e}")
+            raise
 
 
 if __name__ == "__main__":
