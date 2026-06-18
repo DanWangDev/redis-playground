@@ -32,11 +32,17 @@ class Ex14KeyspaceNotifications(ExerciseRunner):
         pubsub.psubscribe("__keyspace@0__:*")
         self.log.command("PSUBSCRIBE __keyspace@0__:*")
         events = []
+        stop = threading.Event()
 
         def listener():
-            for msg in pubsub.listen():
-                if msg["type"] == "pmessage":
-                    events.append({"channel": msg["channel"], "data": msg["data"]})
+            try:
+                for msg in pubsub.listen():
+                    if stop.is_set():
+                        break
+                    if msg["type"] == "pmessage":
+                        events.append({"channel": msg["channel"], "data": msg["data"]})
+            except Exception:
+                pass
 
         t = threading.Thread(target=listener, daemon=True)
         t.start()
@@ -52,8 +58,9 @@ class Ex14KeyspaceNotifications(ExerciseRunner):
         for e in events[:5]:
             self.log.output(f"  [{e['channel']}] {e['data']}")
         results["event_count"] = len(events)
-        pubsub.punsubscribe()
+        stop.set()
         pubsub.close()
+        t.join(timeout=1.0)
 
         self.log.separator()
         self.log.success(f"Keyspace notifications: {len(events)} events captured")

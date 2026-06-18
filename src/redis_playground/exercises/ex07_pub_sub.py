@@ -38,10 +38,17 @@ class Ex07PubSub(ExerciseRunner):
 
         received_messages = []
 
+        stop1 = threading.Event()
+
         def listener():
-            for message in pubsub.listen():
-                if message["type"] == "message":
-                    received_messages.append(message["data"])
+            try:
+                for message in pubsub.listen():
+                    if stop1.is_set():
+                        break
+                    if message["type"] == "message":
+                        received_messages.append(message["data"])
+            except Exception:
+                pass
 
         t = threading.Thread(target=listener, daemon=True)
         t.start()
@@ -52,8 +59,9 @@ class Ex07PubSub(ExerciseRunner):
         time.sleep(0.2)
         self.log.output(f"Subscriber received: {received_messages}")
         results.append(len(received_messages))
-        pubsub.unsubscribe("chat:general")
+        stop1.set()
         pubsub.close()
+        t.join(timeout=1.0)
         self.step_pause.pause()
 
         # ── Step 3: Pattern subscriptions ─────────────────────
@@ -65,13 +73,19 @@ class Ex07PubSub(ExerciseRunner):
         self.log.command("PSUBSCRIBE notifications:*")
 
         pattern_messages = []
+        stop2 = threading.Event()
 
         def listener2():
-            for message in pubsub2.listen():
-                if message["type"] == "pmessage":
-                    pattern_messages.append(
-                        {"channel": message["channel"], "data": message["data"]}
-                    )
+            try:
+                for message in pubsub2.listen():
+                    if stop2.is_set():
+                        break
+                    if message["type"] == "pmessage":
+                        pattern_messages.append(
+                            {"channel": message["channel"], "data": message["data"]}
+                        )
+            except Exception:
+                pass
 
         t2 = threading.Thread(target=listener2, daemon=True)
         t2.start()
@@ -88,8 +102,9 @@ class Ex07PubSub(ExerciseRunner):
         for msg in pattern_messages:
             self.log.output(f"  [{msg['channel']}] {msg['data']}")
         results.append(len(pattern_messages))
-        pubsub2.punsubscribe("notifications:*")
+        stop2.set()
         pubsub2.close()
+        t2.join(timeout=1.0)
 
         self.log.separator()
         self.log.success(
