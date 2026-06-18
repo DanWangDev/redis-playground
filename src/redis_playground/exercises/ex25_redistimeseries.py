@@ -14,7 +14,9 @@ class Ex25RedisTimeSeries(ExerciseRunner):
         results = {}
 
         self.log.section("Step 1: TS.CREATE — Create a Time-Series")
-        self.log.concept("TS.CREATE defines a time-series key with retention and labels.")
+        self.log.concept(
+            "TS.CREATE defines a time-series key with retention and labels."
+        )
         self.log.concept("Requires Redis Stack — may not be available in plain Redis.")
         try:
             try:
@@ -43,7 +45,9 @@ class Ex25RedisTimeSeries(ExerciseRunner):
         results["points_added"] = 4
 
         self.log.section("Step 3: TS.RANGE — Query Range")
-        data = client.execute_command("TS.RANGE", "ts:sensor:1", str(now), str(now + 200000))
+        data = client.execute_command(
+            "TS.RANGE", "ts:sensor:1", str(now), str(now + 200000)
+        )
         self.log.command("TS.RANGE ts:sensor:1 (full range)")
         for dp in data:
             self.log.output(f"  ts={dp[0]}, val={dp[1]}")
@@ -51,8 +55,13 @@ class Ex25RedisTimeSeries(ExerciseRunner):
 
         self.log.section("Step 4: Aggregated Query")
         agg = client.execute_command(
-            "TS.RANGE", "ts:sensor:1", str(now), str(now + 200000),
-            "AGGREGATION", "avg", "120000"
+            "TS.RANGE",
+            "ts:sensor:1",
+            str(now),
+            str(now + 200000),
+            "AGGREGATION",
+            "avg",
+            "120000",
         )
         self.log.command("TS.RANGE ts:sensor:1 ... AGGREGATION avg 120000")
         self.log.output(f"Aggregated buckets: {len(agg)}")
@@ -63,5 +72,7 @@ class Ex25RedisTimeSeries(ExerciseRunner):
         client.execute_command("TS.DEL", "ts:sensor:1")
 
         self.log.separator()
-        self.log.success(f"RedisTimeSeries: {results['range_count']} points, {results['agg_buckets']} buckets")
+        self.log.success(
+            f"RedisTimeSeries: {results['range_count']} points, {results['agg_buckets']} buckets"
+        )
         return results
