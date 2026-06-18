@@ -49,6 +49,7 @@ EXERCISE_REGISTRY = {
     "21": ("redis_playground.exercises.ex21_sharded_pub_sub", "Ex21ShardedPubSub"),
     "22": ("redis_playground.exercises.ex22_scan", "Ex22Scan"),
     "23": ("redis_playground.exercises.ex23_redisjson", "Ex23RedisJSON"),
+    "25": ("redis_playground.exercises.ex25_redistimeseries", "Ex25RedisTimeSeries"),
 }
 
 main_log = Console.for_module("main")
