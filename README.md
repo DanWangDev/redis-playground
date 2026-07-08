@@ -23,6 +23,17 @@ python -m redis_playground.main --exercise 01
 
 Open RedisInsight at http://localhost:8001 to explore data visually.
 
+## Tech Stack
+
+![Python](https://img.shields.io/badge/Python_3.11+-3776AB?style=flat-square&logo=python&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis_Stack-FF4438?style=flat-square&logo=redis&logoColor=white)
+![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
+![Ruff](https://img.shields.io/badge/Ruff-FCC21B?style=flat-square&logo=ruff&logoColor=black)
+
+Dual-mode execution via [fakeredis](https://github.com/cunla/fakeredis-py) (in-memory, no Docker) or real Redis Stack. Terminal UI with [Rich](https://github.com/Textualize/rich). Bilingual concept docs in English and 中文. 26 exercises with unit and integration tests.
+
 ## Exercise Map
 
 | # | Topic | What You'll Learn |
@@ -62,7 +73,7 @@ python -m redis_playground.main --exercise NN [--local] [--step|--no-step]
 
 | Flag | Description |
 |------|-------------|
-| `--exercise NN` | Exercise number (01–20) |
+| `--exercise NN` | Exercise number (01–26) |
 | `--local` | Use fakeredis (in-memory, no Docker) |
 | `--step` | Interactive step-by-step mode |
 | `--no-step` | Run without pauses (CI/automation) |

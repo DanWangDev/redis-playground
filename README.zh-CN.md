@@ -13,6 +13,17 @@ python -m redis_playground.main --exercise 01 --local --step
 
 在浏览器中打开 RedisInsight：http://localhost:8001 可视化探索数据。
 
+## 技术栈
+
+![Python](https://img.shields.io/badge/Python_3.11+-3776AB?style=flat-square&logo=python&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis_Stack-FF4438?style=flat-square&logo=redis&logoColor=white)
+![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
+![Ruff](https://img.shields.io/badge/Ruff-FCC21B?style=flat-square&logo=ruff&logoColor=black)
+
+双模式运行：[fakeredis](https://github.com/cunla/fakeredis-py)（内存模式，无需 Docker）或真实 Redis Stack。终端界面使用 [Rich](https://github.com/Textualize/rich)。中英双语概念文档。26 个练习均配有单元测试与集成测试。
+
 ## 练习列表
 
 | # | 主题 | 学习内容 |
