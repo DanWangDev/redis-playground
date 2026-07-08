@@ -93,29 +93,35 @@ class Ex24RediSearch(ExerciseRunner):
         self.log.command("HSET product:1, product:2, product:3 (3 products)")
         results["indexed"] = 3
 
+        def _count(r) -> int:
+            """Extract hit count from FT.SEARCH response (handles RESP2 list and RESP3 dict)."""
+            if isinstance(r, dict):
+                return r.get("total_results", 0)
+            return r[0]
+
         self.log.section("Step 3: FT.SEARCH — Full-Text Search")
         results_text = client.execute_command(
             "FT.SEARCH", "idx:products", "shirt | hoodie", "LIMIT", "0", "5"
         )
         self.log.command("FT.SEARCH idx:products 'shirt | hoodie'")
-        self.log.output(f"Found {results_text[0]} match(es)")
-        results["text_search"] = results_text[0]
+        self.log.output(f"Found {_count(results_text)} match(es)")
+        results["text_search"] = _count(results_text)
 
         self.log.section("Step 4: Numeric Range Filter")
         results_price = client.execute_command(
             "FT.SEARCH", "idx:products", "@price:[0 50]", "LIMIT", "0", "5"
         )
         self.log.command("FT.SEARCH idx:products '@price:[0 50]'")
-        self.log.output(f"Products under $50: {results_price[0]}")
-        results["price_filter"] = results_price[0]
+        self.log.output(f"Products under $50: {_count(results_price)}")
+        results["price_filter"] = _count(results_price)
 
         self.log.section("Step 5: Tag Filter")
         results_tag = client.execute_command(
             "FT.SEARCH", "idx:products", "@category:{clothing}", "LIMIT", "0", "5"
         )
         self.log.command("FT.SEARCH idx:products '@category:{clothing}'")
-        self.log.output(f"Clothing products: {results_tag[0]}")
-        results["tag_filter"] = results_tag[0]
+        self.log.output(f"Clothing products: {_count(results_tag)}")
+        results["tag_filter"] = _count(results_tag)
 
         client.execute_command("FT.DROPINDEX", "idx:products", "DD")
 
